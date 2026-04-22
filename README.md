@@ -62,18 +62,50 @@ TOTAL: 15 findings   1 high  2 medium  5 low  7 info
 
 ---
 
-## What this edition does NOT do
+## What this edition does NOT do — honest scope
 
-We are honest about scope. The Free Edition is a **scanner**. It does not:
+Palantiri Free is an **external-hygiene scanner**. It covers the "outside-in" layer well. It does NOT cover several layers that a mature security program needs:
 
-- Remove threats from endpoints (that's the Guard tier — paid)
-- Correlate findings across multiple targets with LLM reasoning (Watch tier)
-- Run continuously or send alerts (Watch tier)
-- Provide a hosted dashboard (hosted at palantirisecurity.ai — paid)
-- Maintain a tamper-evident audit log with hash-chain sealing (High Seat tier)
-- Drive SOAR playbooks against CrowdSec / firewalls (High Seat tier)
+| Layer | Covered? | Where to look |
+|---|---|---|
+| External perimeter (headers, TLS, exposed paths, public subdomains) | ✅ Yes | This is what we do |
+| External compliance signals (privacy/terms/cookie/tracker presence) | ⚠️ Signals only | See disclaimer below |
+| Dark web / breach exposure for your domain | ✅ Yes (HIBP public feed) | Ithil stone |
+| **Authenticated scanning** (behind login, DAST) | ❌ No | OWASP ZAP, Burp, Nuclei-with-auth |
+| **Source code / SAST** | ❌ No | Semgrep, CodeQL, GitHub CodeQL |
+| **Dependency / SCA** | ❌ No | `npm audit`, `pip-audit`, Snyk, Trivy, Dependabot |
+| **Cloud posture (AWS/GCP/Azure)** | ❌ No | Prowler, ScoutSuite, CloudSploit |
+| **Runtime malware / endpoint** | ❌ No | ClamAV + YARA + osquery (our paid **Guard** tier orchestrates these) |
+| **Infra-as-code / container scanning** | ❌ No | tfsec, Checkov, Trivy |
+| **Continuous monitoring + alerting** | ❌ No | Our paid **Watch** tier |
 
-For those, see the [paid tiers](https://palantirisecurity.ai/#pricing).
+A passing Palantiri Free grade means your **external posture looks clean**. It does **not** mean your systems are secure end-to-end. Treat it as a recurring-hygiene scanner, not a full security assessment.
+
+### Compliance findings are signals, not legal evidence
+
+Annúminas detects the **presence** of privacy pages, terms pages, cookie banners, and third-party trackers. That is useful triage — but:
+
+- **Finding a privacy page** ≠ the organization is GDPR/CCPA compliant.
+- **Finding trackers without a visible banner** ≠ proof of a legal violation. (The banner may be client-rendered after our scan, or jurisdiction may not require one.)
+
+Treat compliance findings as **risk indicators for your legal team to review**, not as a compliance audit.
+
+## What this edition DOES do exceptionally well
+
+- **Severity ranking with impact labels** — every finding is tagged critical/high/medium/low/info with remediation guidance.
+- **Evidence snippets** — each finding includes the exact header value, status code, or markers we matched on.
+- **Copy-pasteable fixes** — remediation text is concrete config (nginx/Apache/CSP/HSTS) you can drop in.
+- **Body-content verification** — we only flag `wp-config.php` / `.env` / `.git/config` as a critical leak if the body actually contains credential markers, not just on a 200 status code.
+- **Certificate transparency mining** — discovers risky subdomains (dev/staging/admin) you may have forgotten were public.
+- **Stdlib-only Python** — no pip dependencies, no supply chain to worry about.
+
+## Paid tier adds what's missing
+
+| Tier      | Adds on top of free                                                                                 |
+|-----------|------------------------------------------------------------------------------------------------------|
+| **Watch**      | Orthanc (LLM correlation via Claude), Anor (SOC rollup), Supabase persistence, continuous sweeps, scan diffing over time, Slack/email alerts |
+| **Guard**      | Everything in Watch, plus endpoint stack orchestrating ClamAV, YARA, osquery, Suricata, CrowdSec |
+| **High Seat**  | Everything in Guard, plus Elostirion (hash-chained forensic audit) and Osgiliath (SOAR + remediation planner) |
 
 ---
 
