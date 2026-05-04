@@ -1,4 +1,4 @@
-"""Amon Sûl — "Hill of the Wind. Widest view from high ground."
+"""The Anvil — "Hill of the Wind. Widest view from high ground."
 
 Perimeter + network posture scanner. Checks:
   - HTTPS reachability + TLS certificate validity + expiry
@@ -153,7 +153,7 @@ def _scheme(url: str) -> str:
 
 
 class AmonSulAgent(BaseAgent):
-    AGENT_KEY = "amon_sul"
+    AGENT_KEY = "anvil"
 
     def scan_target(self, target: Target) -> list[Finding]:
         findings: list[Finding] = []

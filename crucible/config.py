@@ -1,4 +1,4 @@
-"""Runtime configuration for the Palantiri agent framework."""
+"""Runtime configuration for the Crucible Security agent framework."""
 from __future__ import annotations
 import os
 from pathlib import Path
@@ -21,12 +21,12 @@ SUPABASE_URL       = os.getenv("SUPABASE_URL", "https://zpsdffdluphqnwnmoshn.sup
 SUPABASE_ANON_KEY  = os.getenv("SUPABASE_ANON_KEY", "sb_publishable_qfr2XG5tdfNje2CfBjVANg_a9yccq68")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")  # required for agent writes
 ANTHROPIC_API_KEY  = os.getenv("ANTHROPIC_API_KEY", "")
-HIBP_API_KEY       = os.getenv("HIBP_API_KEY", "")  # optional; Ithil uses free k-anonymity endpoint if absent
+HIBP_API_KEY       = os.getenv("HIBP_API_KEY", "")  # optional; The Shadow uses free k-anonymity endpoint if absent
 
-SCAN_TIMEOUT_SEC   = int(os.getenv("PALANTIRI_SCAN_TIMEOUT_SEC", "20"))
-USER_AGENT         = os.getenv("PALANTIRI_USER_AGENT",
-                               "PalantiriScanner/0.1 (+https://palantirisecurity.com)")
+SCAN_TIMEOUT_SEC   = int(os.getenv("CRUCIBLE_SCAN_TIMEOUT_SEC", "20"))
+USER_AGENT         = os.getenv("CRUCIBLE_USER_AGENT",
+                               "Crucible SecurityScanner/0.1 (+https://cruciblesecurity.com)")
 
 # Agents may also write to a local JSONL dump as a second-hand backup
-LOCAL_FINDINGS_DIR = ROOT / "palantiri" / "data"
+LOCAL_FINDINGS_DIR = ROOT / "crucible" / "data"
 LOCAL_FINDINGS_DIR.mkdir(parents=True, exist_ok=True)

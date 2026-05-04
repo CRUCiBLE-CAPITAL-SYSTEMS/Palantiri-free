@@ -1,8 +1,8 @@
-"""Ithil — "Moon-stone. Looks where no one should."
+"""The Shadow — "Dark web monitor. Looks where no one should."
 
 Dark-web / insider / covert-channel surface scanner.
 
-This stone works without an API key using HIBP's free k-anonymity Pwned Passwords
+This agent works without an API key using HIBP's free k-anonymity Pwned Passwords
 endpoint for email *domain* exposure (via breaches.json public feed) and performs
 these checks:
 
@@ -62,8 +62,8 @@ def _get_json(url: str, headers: dict | None = None, timeout: int = 15):
         return None
 
 
-class IthilAgent(BaseAgent):
-    AGENT_KEY = "ithil"
+class ShadowAgent(BaseAgent):
+    AGENT_KEY = "shadow"
 
     def scan_target(self, target: Target) -> list[Finding]:
         findings: list[Finding] = []
@@ -176,7 +176,7 @@ class IthilAgent(BaseAgent):
         if not key:
             return []
         url = HIBP_ACCOUNT.format(email=urllib.parse.quote(email))
-        data = _get_json(url, headers={"hibp-api-key": key, "user-agent": "PalantiriScanner"})
+        data = _get_json(url, headers={"hibp-api-key": key, "user-agent": "Crucible SecurityScanner"})
         if not data:
             return []
         if isinstance(data, list) and data:

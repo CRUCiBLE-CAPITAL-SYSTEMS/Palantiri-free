@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Palantiri scan CLI.
+"""Crucible Security scan CLI.
 
 Usage:
-    # Free tier (no account, writes to palantiri/data/*.jsonl):
+    # Free tier (no account, writes to crucible/data/*.jsonl):
     python3 scan.py <url>                        # Quick + Advanced scan
     python3 scan.py <url> --tier free
 
@@ -10,8 +10,8 @@ Usage:
     python3 scan.py <url> --tier watch
     python3 scan.py <url> --tier high_seat
 
-    # Single stone:
-    python3 scan.py <url> --agent amon_sul
+    # Single agent:
+    python3 scan.py <url> --agent anvil
 
     # Ecosystem preset:
     python3 scan.py ecosystem
@@ -26,11 +26,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from palantiri.base import Target, SEV_ORDER
-from palantiri.agents import ALL_AGENTS
-from palantiri.tiers import TIERS, agents_for, FREE_AGENTS
+from crucible.base import Target, SEV_ORDER
+from crucible.agents import ALL_AGENTS
+from crucible.tiers import TIERS, agents_for, FREE_AGENTS
 
-log = logging.getLogger("palantiri.scan")
+log = logging.getLogger("crucible.scan")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s — %(message)s")
 
 
@@ -40,7 +40,7 @@ ECOSYSTEM = [
     ("Crucible Markets",         "https://crucible-markets-tmp.vercel.app"),
     ("Studio Labs",              "https://studio-labs-blond.vercel.app"),
     ("UNIFEED",                  "https://web-livid-six-43.vercel.app"),
-    ("Palantiri (self)",         "https://palantirisecurity.com"),
+    ("Crucible Security (self)",         "https://cruciblesecurity.com"),
 ]
 
 
@@ -50,7 +50,7 @@ def run_tier(url: str, name: str, tier: str):
     agent_keys = agents_for(tier)
 
     print(f"\n{'=' * 78}")
-    print(f"PALANTIRI — tier: {tier}  ({TIERS[tier]['desc']})")
+    print(f"CRUCIBLE SECURITY — tier: {tier}  ({TIERS[tier]['desc']})")
     print(f"TARGET: {name} — {url}")
     print(f"Running: {', '.join(agent_keys)}")
     print("=" * 78)
@@ -89,7 +89,7 @@ def run_tier(url: str, name: str, tier: str):
     tot_line = "  ".join(f"{totals[s]} {s}" for s in SEV_ORDER if totals[s])
     print(f"TOTAL: {total_findings} findings   {tot_line}")
     print("=" * 78)
-    print("Local JSONL written to palantiri/data/")
+    print("Local JSONL written to crucible/data/")
     if tier == "free":
         print("Upgrade to 'watch' for correlation + LLM reasoning + SOC rollup.")
     print()
@@ -112,7 +112,7 @@ def run_single(url: str, name: str, agent_key: str):
 
 def main():
     ap = argparse.ArgumentParser(
-        description="Palantiri Seven Stones scanner — free tier runs account-less.")
+        description="Crucible Security The Seven scanner — free tier runs account-less.")
     ap.add_argument("target", help="URL or 'ecosystem' to run the preset")
     ap.add_argument("--name", default=None, help="human label (default: url)")
     ap.add_argument("--tier", default="free", choices=list(TIERS),

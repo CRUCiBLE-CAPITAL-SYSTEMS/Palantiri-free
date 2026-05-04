@@ -1,9 +1,9 @@
 """Tiny Supabase REST client — just what the agents need.
 
 No Python dependency on supabase-py to keep this lightweight. We only need:
-  - insert into palantiri_scans / palantiri_findings / palantiri_audit
-  - update palantiri_scans (finish)
-  - select palantiri_targets / palantiri_findings
+  - insert into crucible_scans / crucible_findings / crucible_audit
+  - update crucible_scans (finish)
+  - select crucible_targets / crucible_findings
 
 Uses the service-role key when present (needed to bypass RLS for agent writes).
 Falls back to anon key for read-only ops, which is fine for dashboards but will
@@ -18,7 +18,7 @@ from typing import Any
 
 from . import config
 
-log = logging.getLogger("palantiri.supa")
+log = logging.getLogger("crucible.supa")
 
 
 def _key() -> str:

@@ -4,7 +4,7 @@ __pycache__/
 venv/
 .env
 .env.local
-palantiri/data/*.jsonl
+crucible/data/*.jsonl
 .DS_Store
 .vscode/
 .idea/

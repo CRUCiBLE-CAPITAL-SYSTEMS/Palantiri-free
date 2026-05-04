@@ -1,11 +1,11 @@
-"""Palantiri tier definitions — OSS Free Edition.
+"""Crucible Security tier definitions — OSS Free Edition.
 
 Free tier is the only tier shipped in this repo. Paid tiers (Watch / Guard /
-High Seat) require the private paid fork at palantirisecurity.com.
+High Seat) require the private paid fork at cruciblesecurity.com.
 """
 from __future__ import annotations
 
-FREE_AGENTS = ["amon_sul", "annuminas", "ithil"]
+FREE_AGENTS = ["anvil", "alloy", "shadow"]
 
 TIERS = {
     "free": {"agents": FREE_AGENTS, "guard": [],
@@ -17,7 +17,7 @@ def agents_for(tier: str) -> list[str]:
     if tier != "free":
         raise ValueError(
             f"Tier {tier!r} is a paid tier. The OSS Free Edition only supports "
-            f"--tier free. See https://palantirisecurity.com/#pricing for paid tiers."
+            f"--tier free. See https://cruciblesecurity.com/#pricing for paid tiers."
         )
     return FREE_AGENTS
 

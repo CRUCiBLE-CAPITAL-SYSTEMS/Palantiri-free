@@ -1,4 +1,4 @@
-"""Annúminas — "Tower of the West. Keeps the kingdom lawful."
+"""The Alloy — "Tower of the West. Keeps the kingdom lawful."
 
 Governance & compliance scanner. Checks:
   - Privacy policy page present + reachable
@@ -82,8 +82,8 @@ def _get(url: str, timeout: int = 10, max_bytes: int = 200_000):
         return None, {}, ""
 
 
-class AnnuminasAgent(BaseAgent):
-    AGENT_KEY = "annuminas"
+class AlloyAgent(BaseAgent):
+    AGENT_KEY = "alloy"
 
     def scan_target(self, target: Target) -> list[Finding]:
         findings: list[Finding] = []
@@ -94,7 +94,7 @@ class AnnuminasAgent(BaseAgent):
         if status is None:
             findings.append(Finding(
                 severity="high", category="reachability",
-                title="Annúminas could not reach the homepage",
+                title="The Alloy could not reach the homepage",
                 description=f"{base} returned no response during governance scan."))
             return findings
 

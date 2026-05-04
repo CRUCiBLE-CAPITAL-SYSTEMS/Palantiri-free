@@ -1,18 +1,18 @@
-"""Base Agent class — all Seven Stones inherit from this.
+"""Base Agent class — all The Seven inherit from this.
 
 Lifecycle:
     agent = SomeAgent()
-    scan = agent.start_scan(target)            # opens palantiri_scans row
+    scan = agent.start_scan(target)            # opens crucible_scans row
     try:
         findings = agent.scan_target(target)   # subclass implements
-        agent.persist_findings(scan, findings) # writes palantiri_findings
+        agent.persist_findings(scan, findings) # writes crucible_findings
         agent.finish_scan(scan, findings)
     except Exception as e:
         agent.fail_scan(scan, str(e))
         raise
 
 The base class handles Supabase persistence, local JSONL backup, stable
-fingerprinting for dedup, and the Elostirion audit trail.
+fingerprinting for dedup, and the The Temper audit trail.
 """
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ from typing import Any
 
 from . import config, supa
 
-log = logging.getLogger("palantiri.agent")
+log = logging.getLogger("crucible.agent")
 
 SEV_ORDER = ["critical", "high", "medium", "low", "info"]
 
@@ -58,7 +58,7 @@ class Finding(dict):
 
 
 class Target(dict):
-    """A scan target. Either an in-memory ad-hoc dict or a row from palantiri_targets."""
+    """A scan target. Either an in-memory ad-hoc dict or a row from crucible_targets."""
     @classmethod
     def adhoc(cls, url: str, name: str | None = None) -> "Target":
         return cls(
@@ -75,7 +75,7 @@ class Target(dict):
 class BaseAgent(abc.ABC):
     """Subclass and set AGENT_KEY + implement scan_target()."""
 
-    AGENT_KEY: str = ""                       # e.g. "amon_sul"
+    AGENT_KEY: str = ""                       # e.g. "anvil"
     DEFAULT_SEVERITY: str = "info"
 
     def __init__(self, *, local_only: bool = False):
@@ -118,7 +118,7 @@ class BaseAgent(abc.ABC):
             self._jsonl("scans", row)
             return row
         try:
-            return supa.insert("palantiri_scans", row) or row
+            return supa.insert("crucible_scans", row) or row
         except Exception:
             log.warning(f"[{self.AGENT_KEY}] could not open scan row — falling back to local")
             self._jsonl("scans", row)
@@ -173,7 +173,7 @@ class BaseAgent(abc.ABC):
                 self._jsonl("findings", row)
             else:
                 try:
-                    supa.insert("palantiri_findings", row, returning=False)
+                    supa.insert("crucible_findings", row, returning=False)
                 except Exception:
                     log.warning(f"[{self.AGENT_KEY}] finding insert failed — falling back to local")
                     self._jsonl("findings", row)
@@ -189,7 +189,7 @@ class BaseAgent(abc.ABC):
             self._jsonl("scans_update", {"id": scan_id, **patch})
             return
         try:
-            supa.update("palantiri_scans", {"id": scan_id}, patch)
+            supa.update("crucible_scans", {"id": scan_id}, patch)
         except Exception:
             log.warning(f"[{self.AGENT_KEY}] scan patch failed — falling back to local")
             self._jsonl("scans_update", {"id": scan_id, **patch})
@@ -210,7 +210,7 @@ class BaseAgent(abc.ABC):
             self._jsonl("audit", row)
             return
         try:
-            supa.insert("palantiri_audit", row, returning=False)
+            supa.insert("crucible_audit", row, returning=False)
         except Exception:
             self._jsonl("audit", row)
 
