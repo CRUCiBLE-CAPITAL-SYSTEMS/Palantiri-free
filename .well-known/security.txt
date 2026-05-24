@@ -1,3 +1,3 @@
-Contact: mailto:security@cruciblesecurity.com
-Policy: https://cruciblesecurity.com/security-policy
+Contact: mailto:security@gocruciblesecurity.com
+Policy: https://gocruciblesecurity.com/security-policy
 Preferred-Languages: en
